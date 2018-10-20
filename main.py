@@ -38,3 +38,26 @@ class Browser(object):
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         self.cleanup()
+
+
+class GamePage(object):
+    GAME_DOMAIN = 'game.web-tycoon.com'
+    __browser = None
+
+    @property
+    def browser(self):
+        """ :rtype: webdriver.Chrome"""
+        if not self.__browser:
+            self.__browser = Browser(visible=True)
+        return self.__browser.browser
+
+    def game_login(self, login, password):
+        self.browser.get('https://{}'.format(self.GAME_DOMAIN))
+        self.browser.find_element_by_link_text('Войти в аккаунт').click()
+        input_login = self.browser.find_element_by_id('userEmail')
+        input_password = self.browser.find_element_by_id('userPassword')
+        input_login.clear()
+        input_login.send_keys(login)
+        input_password.clear()
+        input_password.send_keys(password)
+        self.browser.find_element_by_class_name('enterButton').click()
