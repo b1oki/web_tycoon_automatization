@@ -10,13 +10,16 @@ GAME_PASSWORD = ''
 class Browser(object):
     browser = None
     visible = None
+    implicitly_wait = 10
 
     def create_browser(self):
         chrome_options = Options()
+        chrome_options.add_argument('--disable-notifications')
         if not self.visible:
             chrome_options.add_argument('--headless')
             chrome_options.add_argument('--disable-gpu')
-        self.browser = webdriver.Chrome(chrome_options=chrome_options)
+        self.browser = webdriver.Chrome(options=chrome_options)
+        self.browser.implicitly_wait(self.implicitly_wait)
 
     def __init__(self, visible=False):
         self.visible = bool(visible)
