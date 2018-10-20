@@ -1,7 +1,11 @@
 # -*- coding: utf-8 -*-
 import time
+
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions
+from selenium.webdriver.support.ui import WebDriverWait
 
 GAME_LOGIN = ''
 GAME_PASSWORD = ''
@@ -64,11 +68,18 @@ class GamePage(object):
         input_password.clear()
         input_password.send_keys(password)
         self.browser.find_element_by_class_name('enterButton').click()
+        WebDriverWait(self.browser, 3).until_not(
+            expected_conditions.visibility_of_element_located((By.CLASS_NAME, 'modalOverlay')))
+
+    def open_employees(self):
+        self.browser.find_element_by_class_name('linkWorkers').click()
 
 
 def main():
     page = GamePage()
     page.game_login(GAME_LOGIN, GAME_PASSWORD)
+    page.open_employees()
+    time.sleep(5)
     """ TODO:
     пройти по сотрудникам
         занятость
