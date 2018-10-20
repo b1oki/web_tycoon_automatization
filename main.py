@@ -61,3 +61,9 @@ class GamePage(object):
         input_password.clear()
         input_password.send_keys(password)
         self.browser.find_element_by_class_name('enterButton').click()
+
+
+def main():
+    page = GamePage()
+    page.game_login(GAME_LOGIN, GAME_PASSWORD)
+    time.sleep(5)
